@@ -47,7 +47,7 @@ public class GUI extends JFrame
 	private JButton btnNewButton;
 
 	private Haendler haendler = new Haendler();
-	private Kunde kunde = new Kunde();
+	private Kunde kunde = new Kunde(0, 99);
 	private Produkt produkt = new Produkt(1.50, 2.00);
 
 	/**
@@ -211,7 +211,7 @@ public class GUI extends JFrame
 					txtCountToBuy.setText("");
 
 					haendler = new Haendler();
-					kunde = new Kunde();
+					kunde = new Kunde(0, 99);
 					produkt = new Produkt(1.50, 2.00);
 				}
 			}

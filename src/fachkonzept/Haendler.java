@@ -6,7 +6,7 @@ public class Haendler
 
 	public Haendler()
 	{
-		this.eigenkapital = 0;
+		this.eigenkapital = 100;
 	}
 
 	public boolean istPleite()

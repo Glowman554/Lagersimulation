@@ -57,7 +57,7 @@ public class Konsole
 		System.out.println("---------------");
 
 		Haendler haendler = new Haendler();
-		Kunde kunde = new Kunde();
+		Kunde kunde = new Kunde(0, 99);
 		Produkt produkt = new Produkt(1.50, 2.00);
 		Scanner input = new Scanner(System.in);
 
