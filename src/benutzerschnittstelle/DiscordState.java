@@ -13,7 +13,7 @@ public class DiscordState
 	public DiscordState()
 	{
 		haendler = new Haendler();
-		kunde = new Kunde();
+		kunde = new Kunde(0, 99);
 		produkt = new Produkt(1.50, 2.00);
 	}
 }
