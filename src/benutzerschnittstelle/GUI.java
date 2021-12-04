@@ -5,8 +5,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import fachkonzept.Haendler;
+import fachkonzept.Kunde;
+import fachkonzept.Produkt;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -37,11 +46,21 @@ public class GUI extends JFrame
 	private JTextField txtCountToBuy;
 	private JButton btnNewButton;
 
+	private Haendler haendler = new Haendler();
+	private Kunde kunde = new Kunde();
+	private Produkt produkt = new Produkt(1.50, 2.00);
+
 	/**
 	 * Launch the application.
+	 * @throws UnsupportedLookAndFeelException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws ClassNotFoundException
 	 */
-	public static void main(String[] args)
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException
 	{
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
@@ -160,6 +179,41 @@ public class GUI extends JFrame
 		btnNewButton = new JButton("BUY!");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int eingekaufteMenge = Integer.parseInt(txtCountToBuy.getText());
+
+				double kosten_for_haenlder = produkt.kaufeEin(eingekaufteMenge);
+
+				int kunde_wants = kunde.frageAn();
+				int kunde_wants_and_gets = produkt.frageAn(kunde_wants);
+
+				double kosten_for_kunde = produkt.verkaufe(kunde_wants_and_gets);
+				double gewinn = haendler.verbucheErgebnis(kosten_for_kunde, kosten_for_haenlder);
+
+				txtAngefragteMenge.setText(String.valueOf(eingekaufteMenge));
+				txtVerkaufteMenge.setText(String.valueOf(kunde_wants_and_gets));
+				txtKosten.setText(String.valueOf(kosten_for_haenlder));
+				txtUmsatz.setText(String.valueOf(kosten_for_kunde));
+				txtGewinn.setText(String.valueOf(gewinn));
+				txtEigenkapital.setText(String.valueOf(haendler.liesEigenkapital()));
+				txtLagerbestand.setText(String.valueOf(produkt.liesLagerbestand()));
+
+				if (haendler.istPleite())
+				{
+					JOptionPane.showMessageDialog(null, "Sie haben kein Eigenkapital mehr.", "Ende Ihres Unternehmens!", JOptionPane.ERROR_MESSAGE);
+
+					txtAngefragteMenge.setText("");
+					txtVerkaufteMenge.setText("");
+					txtKosten.setText("");
+					txtUmsatz.setText("");
+					txtGewinn.setText("");
+					txtEigenkapital.setText("");
+					txtLagerbestand.setText("");
+					txtCountToBuy.setText("");
+
+					haendler = new Haendler();
+					kunde = new Kunde();
+					produkt = new Produkt(1.50, 2.00);
+				}
 			}
 		});
 		btnNewButton.setBounds(10, 315, 266, 21);
